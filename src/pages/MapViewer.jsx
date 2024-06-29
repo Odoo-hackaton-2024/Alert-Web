@@ -9,6 +9,9 @@ function MapViewer() {
     const [showOverlay, setShowOverlay] = useState(false);
     const [viewReport, setViewReport] = useState(false);
     const [report, setReport] = useState({})
+    const [cases, setCases] = useState(0)
+
+    const [intensity, setIntensity] = useState("normal")
 
     const radius = 50000; // 50km
 
@@ -43,33 +46,98 @@ function MapViewer() {
           }
         });
         setShowOverlay(count > 3)
+        setCases(count)
+        setIntensity(count >= 5 ? "High" : (count >= 3 ?  "Medium" : "Normal"))
     };
+
+    const reportLabel = label => {
+        return (
+            <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>{label}</p>
+        )
+    }
+
+    const reportData = data => {
+        return (
+            <p className='text-left text-xl text-white'>{data}</p>
+        )
+    }
+
+    const ahmedabad = () => {
+        setReport(
+            {
+                ID: "101",
+                SubmittedBy: "Umang Rathod",
+                City: "Ahmedabad",
+                Description: "I saw a murderer",
+                nearestPolice: "New Naroda",
+            }
+        )
+    }
+
+    const vadodara = () => {
+        setReport(
+            {
+                ID: "102",
+                SubmittedBy: "Kaushik",
+                City: "Vadodara",
+                Description: "Accident happened",
+                nearestPolice: "Vadodara city",
+            }
+        )
+    }
+
+    const surat = () => {
+        setReport(
+            {
+                ID: "110",
+                SubmittedBy: "Aman",
+                City: "Surat",
+                Description: "Saw a drug dealer",
+                nearestPolice: "Surat city",
+            }
+        )
+    }
 
 
     return (
         <div className='h-screen w-screen flex flex-row items-center overflow-hidden'>
             <div className='h-full w-3/4 bg-white'>
-                <AlertMap lat={latitude} lon={longitude} showOverlay={showOverlay} />
+                <AlertMap lat={latitude} lon={longitude} showOverlay={showOverlay}  />
             </div>
             {
                 viewReport ? 
                 <div className='h-full bg-black w-1/3 flex flex-col py-4 px-5'>
                     <p className='text-center text-xl text-white'>Report</p>
 
-                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>ID</p>
-                    <p className='text-left text-xl text-white'>101</p>
+                    {reportLabel("ID")}
+                    {reportData(report.ID)}
 
-                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>Submitted by</p>
-                    <p className='text-left text-xl text-white'>Umang Rathod</p>
+                    {reportLabel("Submitted by")}
+                    {reportData(report.SubmittedBy)}
 
-                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>City</p>
-                    <p className='text-left text-xl text-white'>Ahmedabad</p>
+                    {reportLabel("City")}
+                    {reportData(report.City)}
 
-                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>Description</p>
-                    <p className='text-left text-xl text-white'> I saw a murderer.</p>
+                    {reportLabel("Description")}
+                    {reportData(report.Description)}
 
-                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>Nearest police station</p>
-                    <p className='text-left text-xl text-white'>Naroda</p>
+                    {reportLabel("Nearest police station")}
+                    {reportData(report.nearestPolice)}
+
+                    {
+                        showOverlay 
+                        ? 
+                        <>
+                            {reportLabel("Number of cases")}
+                            {reportData(cases)}
+
+                            {reportLabel("Intensity")}
+                            {reportData(intensity)}
+                        </>
+                        : 
+                        <></>
+                    }
+                    
                 </div>
             : null
             }
@@ -79,20 +147,33 @@ function MapViewer() {
 
                     <button 
                         className='w-full rounded-md px-3 py-2 bg-white mt-6'
-                        onClick={() => changeLocation(23.0225, 72.5714)}>Ahmedabad</button>
+                        onClick={() => {
+                            changeLocation(23.0225, 72.5714)
+                            ahmedabad()
+                            }}>Ahmedabad</button>
 
                     <button 
                         className='w-full rounded-md px-3 py-2 bg-white mt-6'
-                        onClick={() => changeLocation(22.3072, 73.1812)}>Vadodara</button>
+                        onClick={() => {
+                            changeLocation(22.3072, 73.1812) 
+                            vadodara()
+                            }}>Vadodara</button>
 
                     <button 
                         className='w-full rounded-md px-3 py-2 bg-white mt-6'
-                        onClick={() => changeLocation(21.1702, 72.8311)}>Surat</button>
+                        onClick={() => {
+                            changeLocation(21.1702, 72.8311)
+                            surat()}}>Surat</button>
 
                     <button 
                         className='w-full rounded-md px-3 py-2 bg-white mt-6'
-                        onClick={() => changeLocation(50.881, 4.703)}>Test</button>
+                        onClick={() => {
+                            changeLocation(50.881, 4.703)
+                            ahmedabad()
+                            }}>Test</button>
                 </div>
+
+            
             </div>
 
 

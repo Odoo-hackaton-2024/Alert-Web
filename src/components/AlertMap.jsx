@@ -4,7 +4,7 @@ import danger from '../assets/images/danger.png'
 
 function AlertMap({ lat, lon, showOverlay }) {
   return (
-    <Map height={1080} center={[lat, lon]} defaultZoom={11}>
+    <Map height={1080} center={[lat, lon]}  defaultZoom={11}>
       <Marker width={40} anchor={[lat, lon]} />
 
       {showOverlay && (

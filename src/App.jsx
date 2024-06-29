@@ -7,9 +7,21 @@ import AlertMap from './components/AlertMap'
 import MapViewer from './pages/MapViewer'
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  setTimeout(() => {
+    setLoggedIn(true)
+  }, 3000)
 
   return (
-    <MapViewer />
+    <>
+      {
+        loggedIn 
+        ? 
+        <MapViewer />
+        :
+        <Auth />
+      }
+    </>
   )
 }
 

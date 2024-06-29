@@ -3,7 +3,7 @@ import { colors } from "../theme/theme"
 function Auth() {
 
   return (
-    <div className='h-screen w-screen flex flex-row items-center justify-between' style={{backgroundColor: colors.darkBG(0.9)}}>
+    <div className='h-screen w-screen flex flex-row items-center justify-between' style={{backgroundColor: colors.darkAlpha(0.9)}}>
 
         <div className='h-full w-1/2 flex items-center justify-center'>
           <div className='flex flex-col items-center justify-center'>
