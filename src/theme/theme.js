@@ -3,3 +3,4 @@ export const colors = {
     secondary: "#000000",
     darkBG: alpha => `rgba(0, 0, 0, ${alpha})`
 }
+
