@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import AlertMap from '../components/AlertMap'
 import { getDistance } from 'geolib';
+import { colors } from '../theme/theme';
 
 function MapViewer() {
     const [latitude, setLatitude] = useState(50.879);
     const [longitude, setLongitude] = useState(4.6997);
-    const [showOverlay, setShowOverlay] = useState(false)
+    const [showOverlay, setShowOverlay] = useState(false);
+    const [viewReport, setViewReport] = useState(false);
+    const [report, setReport] = useState({})
 
     const radius = 50000; // 50km
 
@@ -18,8 +21,13 @@ function MapViewer() {
       ];
 
     const changeLocation = (lat, lon) => {
+        if(lat == latitude && lon == lon) setViewReport(!viewReport)
+        else setViewReport(true)
+
         setLatitude(lat)
         setLongitude(lon)
+        
+        setReport({city: "Ahmdabad"})
         checkMarkersWithinRadius(lat, lon)
     }
 
@@ -37,14 +45,37 @@ function MapViewer() {
         setShowOverlay(count > 3)
     };
 
+
     return (
         <div className='h-screen w-screen flex flex-row items-center overflow-hidden'>
             <div className='h-full w-3/4 bg-white'>
                 <AlertMap lat={latitude} lon={longitude} showOverlay={showOverlay} />
             </div>
+            {
+                viewReport ? 
+                <div className='h-full bg-black w-1/3 flex flex-col py-4 px-5'>
+                    <p className='text-center text-xl text-white'>Report</p>
+
+                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>ID</p>
+                    <p className='text-left text-xl text-white'>101</p>
+
+                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>Submitted by</p>
+                    <p className='text-left text-xl text-white'>Umang Rathod</p>
+
+                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>City</p>
+                    <p className='text-left text-xl text-white'>Ahmedabad</p>
+
+                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>Description</p>
+                    <p className='text-left text-xl text-white'> I saw a murderer.</p>
+
+                    <p className='text-left text-lg text-white mt-4' style={{color: colors.lightAlpha(0.60)}}>Nearest police station</p>
+                    <p className='text-left text-xl text-white'>Naroda</p>
+                </div>
+            : null
+            }
             <div className='h-full w-1/4 bg-red-500'>
                 <div className='flex flex-col items-start justify-start px-2 py-3'>
-                    <div className="w-full"><p className='text-center text-xl'>Locations</p></div>``
+                    <div className="w-full"><p className='text-center text-xl'>Locations</p></div>
 
                     <button 
                         className='w-full rounded-md px-3 py-2 bg-white mt-6'
@@ -63,6 +94,8 @@ function MapViewer() {
                         onClick={() => changeLocation(50.881, 4.703)}>Test</button>
                 </div>
             </div>
+
+
         </div>
     )
 }
